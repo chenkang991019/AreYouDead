@@ -6,6 +6,7 @@ import {
   useReadContract,
   useWriteContract,
   useWaitForTransactionReceipt,
+  useChainId,
 } from "wagmi";
 import { sepolia } from "viem/chains"; // 引入 sepolia 配置
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -25,6 +26,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { InheritanceSettings } from "@/components/InheritanceSettings";
+import { NetworkGuard } from "@/components/NetworkGuard";
 
 export default function Home() {
   const { address, isConnected, status } = useAccount();
@@ -54,6 +56,8 @@ export default function Home() {
   const savedEmail = userData ? userData[1] : "";
   const lastCheckIn = userData ? userData[2] : BigInt(0);
   const userExists = userData ? userData[4] : false;
+
+  const chainId = useChainId();
 
   useEffect(() => {
     setMounted(true);
@@ -132,8 +136,6 @@ export default function Home() {
     });
   useEffect(() => {
     if (checkInError) {
-      // 处理错误逻辑
-      console.log("错误详情:", error);
       if (checkInError.message.includes("User rejected")) {
         toast.error("用户已取消");
       } else if (checkInError.message.includes("insufficient funds")) {
@@ -176,6 +178,7 @@ export default function Home() {
     });
   };
   if (!mounted) return null;
+  if (chainId !== sepolia.id) return <NetworkGuard />;
   //  如果正在“连接中”或“重连中”，显示 Loading，而不是登录页
   if (status === "connecting" || status === "reconnecting") {
     return (
