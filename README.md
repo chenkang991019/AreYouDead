@@ -1,6 +1,6 @@
 # 🌱 AreYouDead - 链上生命信号守护协议
 
-> **"当数字世界需要确认你依然鲜活，我们为你守护最后一道安全线"**
+> **"当数字世界需要确认你依然活着，我们为你守护最后一道安全线"**
 
 [Live Demo](https://are-you-dead.vercel.app/) | [Verified Contract](https://sepolia.etherscan.io/address/0xee4e4A59f8AC362351150365933Dc53A71388633)
 
@@ -57,48 +57,57 @@ AreYouDead 是一个部署在 **Sepolia 测试网** 上的全栈去中心化应�
 
 ### 1. 克隆项目
 
-git clone https://github.com/chenkang991019/AreYouDead.git
+## git clone https://github.com/chenkang991019/AreYouDead.git
+
 cd AreYouDead
 
 ### 2. 前端启动 (Frontend)
 
-npm install
-npm run dev
+## npm install
 
-# 访问 http://localhost:3000
+## npm run dev
+
+访问 http://localhost:3000
 
 ### 3. 配置并启动后端机器人
 
-cd backend
+## cd backend
+
 npm install
 
-# 创建配置文件
+#### 创建配置文件
 
-echo "EMAIL_USER=your_email@qq.com" >> .env
+## echo "EMAIL_USER=your_email@qq.com" >> .env
+
 echo "EMAIL_PASS=your_app_password" >> .env
 
-# 启动服务
+#### 启动服务
 
 node bot.js
 
-📂 目录结构
-code
-Text
+## 📂 目录结构
+
+---
+
+```text
 AreYouDead/
-├── app/ # Next.js 前端页面
-│ ├── page.tsx # 主页逻辑
-│ ├── constants.ts # 合约地址与 ABI 配置
-│ └── ...
-├── components/ # UI 组件 (Shadcn)
-├── backend/ # Node.js 监听服务
-│ ├── bot.js # 核心轮询逻辑
-│ └── .env # 敏感配置 (Git Ignored)
-├── public/ # 静态资源
-└── README.md # 项目文档
-⛓️ 合约信息 (Sepolia)
-Contract Address: 0xee4e4A59f8AC362351150365933Dc53A71388633
+├── app/               # Next.js 页面逻辑与 UI
+├── backend/           # Node.js 监听机器人 (Watcher)
+│   ├── bot.js         # 核心轮询监听与邮件发送逻辑
+│   └── .env           # 敏感配置 (需手动创建)
+├── components/        # UI 组件库 (Shadcn)
+├── contracts/         # Solidity 源代码
+├── public/            # 静态资源 (图片/图标)
+└── package.json       # 项目依赖配置
+```
+
+## ⛓️ 合约信息 (Sepolia)
+
+## Contract Address: 0xee4e4A59f8AC362351150365933Dc53A71388633
+
 Etherscan: View on Sepolia Etherscan
-📸 项目演示
+
+## 📸 项目演示
 
 1. 正常状态 (已签到)
    ![App Screenshot](https://github.com/chenkang991019/AreYouDead/blob/main/public/homePage.png)
@@ -109,7 +118,10 @@ Etherscan: View on Sepolia Etherscan
 4. 资产分配
    ![App Screenshot](https://github.com/chenkang991019/AreYouDead/blob/main/public/allocate.jpg)
 
-   ⚠️ 免责声明
-   本项目仅供 Web3 学习与技术展示 使用。
-   Author: Chen Kang
-   License: MIT
+## ⚠️ 免责声明
+
+本项目仅供 Web3 学习与技术展示 使用。
+
+---
+
+Author: Chen Kang
