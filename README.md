@@ -57,27 +57,27 @@ AreYouDead 是一个部署在 **Sepolia 测试网** 上的全栈去中心化应�
 
 ### 1. 克隆项目
 
-## git clone https://github.com/chenkang991019/AreYouDead.git
+git clone https://github.com/chenkang991019/AreYouDead.git
 
 cd AreYouDead
 
 ### 2. 前端启动 (Frontend)
 
-## npm install
+npm install
 
-## npm run dev
+npm run dev
 
 访问 http://localhost:3000
 
 ### 3. 配置并启动后端机器人
 
-## cd backend
+cd backend
 
 npm install
 
 #### 创建配置文件
 
-## echo "EMAIL_USER=your_email@qq.com" >> .env
+echo "EMAIL_USER=your_email@qq.com" >> .env
 
 echo "EMAIL_PASS=your_app_password" >> .env
 
@@ -109,19 +109,23 @@ Etherscan: View on Sepolia Etherscan
 
 ## 📸 项目演示
 
-1. 正常状态 (已签到)
-   ![App Screenshot](https://github.com/chenkang991019/AreYouDead/blob/main/public/homePage.png)
-2. 预警触发 (邮件通知)
-   ![App Screenshot](https://github.com/chenkang991019/AreYouDead/blob/main/public/warning.jpg)
-3. 资产分配通知
-   ![App Screenshot](https://github.com/chenkang991019/AreYouDead/blob/main/public/asset.jpg)
-4. 资产分配
-   ![App Screenshot](https://github.com/chenkang991019/AreYouDead/blob/main/public/allocate.jpg)
+## 1. 正常状态 (已签到)
+
+![App Screenshot](https://github.com/chenkang991019/AreYouDead/blob/main/public/homePage.png)
+
+## 2. 预警触发 (邮件通知)
+
+![App Screenshot](https://github.com/chenkang991019/AreYouDead/blob/main/public/warning.jpg)
+
+## 3. 资产分配通知
+
+![App Screenshot](https://github.com/chenkang991019/AreYouDead/blob/main/public/asset.jpg)
+
+## 4. 资产分配
+
+![App Screenshot](https://github.com/chenkang991019/AreYouDead/blob/main/public/allocate.jpg)
 
 ## ⚠️ 免责声明
 
 本项目仅供 Web3 学习与技术展示 使用。
-
----
-
 Author: Chen Kang
