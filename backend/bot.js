@@ -53,7 +53,7 @@ async function checkForEvents() {
             await sendEmail(
                 email, 
                 `【紧急预警】，请确认安全`,
-                `检测到您的好友 ${name} 长时间未签到。如果这是误报，请联系 ${name} 在48小时内访问 DApp 签到。`
+                `检测到您的好友 ${name} 已连续3天未签到。请立即尝试联系他/她以确认安全。`
             );
         }
 
