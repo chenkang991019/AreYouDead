@@ -4,7 +4,7 @@ const { createPublicClient, http, parseAbiItem } = require('viem');
 const { sepolia } = require('viem/chains');
 
 // ⚠️ 确保这里是你 Etherscan 截图里那个有 Log 的地址
-const CONTRACT_ADDRESS = "0x171E3363B94Ca33C3F6D5B4D82CeFBCF9C516586"; 
+const CONTRACT_ADDRESS = "0xee4e4A59f8AC362351150365933Dc53A71388633"; 
 
 const client = createPublicClient({
     chain: sepolia,

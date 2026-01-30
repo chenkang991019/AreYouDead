@@ -14,7 +14,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
@@ -25,10 +24,6 @@ import {
   Save,
   Wallet,
   Activity,
-  Info,
-  ArrowUpCircle,
-  ArrowDownCircle,
-  CheckCircle2,
   Lock,
   Mail,
   Loader2,
@@ -468,7 +463,8 @@ export const InheritanceSettings = () => {
             保存规则到区块链
           </Button>
           <p className="text-center text-[10px] text-slate-400 mt-4 leading-relaxed">
-            * 资产将在 5 天未签到后按上述方案分发
+            * 本设置仅在您超过 5
+            天未签到后才会生效，您可以随时取回您的资金并修改方案。
           </p>
         </div>
         <DialogDescription className="sr-only"></DialogDescription>

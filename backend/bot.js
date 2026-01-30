@@ -3,7 +3,7 @@ const { createPublicClient, http, parseAbiItem, formatUnits } = require('viem');
 const { sepolia } = require('viem/chains');
 const nodemailer = require('nodemailer');
 
-const CONTRACT_ADDRESS = "0x171E3363B94Ca33C3F6D5B4D82CeFBCF9C516586"; 
+const CONTRACT_ADDRESS = "0xee4e4A59f8AC362351150365933Dc53A71388633"; 
 
 const transporter = nodemailer.createTransport({
     service: 'qq',

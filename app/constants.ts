@@ -1,6 +1,20 @@
-export const CONTRACT_ADDRESS = "0x171E3363B94Ca33C3F6D5B4D82CeFBCF9C516586"; // 你的合约地址
+export const CONTRACT_ADDRESS = "0xee4e4A59f8AC362351150365933Dc53A71388633"; // 你的合约地址
 
 export const CONTRACT_ABI = [
+  {
+    inputs: [],
+    name: "checkAllUsers",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "checkIn",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
   {
     inputs: [
       {
@@ -30,6 +44,46 @@ export const CONTRACT_ABI = [
     ],
     name: "CheckIn",
     type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_target",
+        type: "address",
+      },
+    ],
+    name: "checkStatus",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
+    ],
+    name: "depositUSDT",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "forceDistribute",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "forceTriggerWarning",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     anonymous: false,
@@ -98,9 +152,15 @@ export const CONTRACT_ABI = [
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "totalAmount",
-        type: "uint256",
+        internalType: "string",
+        name: "userName",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "userEmail",
+        type: "string",
       },
     ],
     name: "InheritanceDistributed",
@@ -130,6 +190,47 @@ export const CONTRACT_ABI = [
     ],
     name: "ProfileUpdated",
     type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address[]",
+        name: "_accounts",
+        type: "address[]",
+      },
+      {
+        internalType: "uint256[]",
+        name: "_shares",
+        type: "uint256[]",
+      },
+      {
+        internalType: "string[]",
+        name: "_emails",
+        type: "string[]",
+      },
+    ],
+    name: "setHeirs",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_name",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_email",
+        type: "string",
+      },
+    ],
+    name: "setProfile",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     anonymous: false,
@@ -195,59 +296,6 @@ export const CONTRACT_ABI = [
     type: "event",
   },
   {
-    inputs: [],
-    name: "INHERITANCE_PERIOD",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "WARNING_PERIOD",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "checkAllUsers",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "checkIn",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_target",
-        type: "address",
-      },
-    ],
-    name: "checkStatus",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "uint256",
@@ -255,7 +303,7 @@ export const CONTRACT_ABI = [
         type: "uint256",
       },
     ],
-    name: "depositUSDT",
+    name: "withdraw",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -329,44 +377,16 @@ export const CONTRACT_ABI = [
     type: "function",
   },
   {
-    inputs: [
+    inputs: [],
+    name: "INHERITANCE_PERIOD",
+    outputs: [
       {
-        internalType: "address[]",
-        name: "_accounts",
-        type: "address[]",
-      },
-      {
-        internalType: "uint256[]",
-        name: "_shares",
-        type: "uint256[]",
-      },
-      {
-        internalType: "string[]",
-        name: "_emails",
-        type: "string[]",
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
-    name: "setHeirs",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "_name",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "_email",
-        type: "string",
-      },
-    ],
-    name: "setProfile",
-    outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -446,16 +466,16 @@ export const CONTRACT_ABI = [
     type: "function",
   },
   {
-    inputs: [
+    inputs: [],
+    name: "WARNING_PERIOD",
+    outputs: [
       {
         internalType: "uint256",
-        name: "_amount",
+        name: "",
         type: "uint256",
       },
     ],
-    name: "withdraw",
-    outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "view",
     type: "function",
   },
 ] as const;

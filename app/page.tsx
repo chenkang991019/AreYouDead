@@ -27,6 +27,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { InheritanceSettings } from "@/components/InheritanceSettings";
 import { NetworkGuard } from "@/components/NetworkGuard";
+import { Disconnected } from "@/components/Disconnected";
 
 export default function Home() {
   const { address, isConnected, status } = useAccount();
@@ -79,23 +80,22 @@ export default function Home() {
       // 定义一个检查函数
       const checkStatus = () => {
         // --- 调试模式 (按秒算) ---
-        const now = Math.floor(Date.now() / 1000);
-        const diff = now - Number(lastCheckIn);
+        // const now = Math.floor(Date.now() / 1000);
+        // const diff = now - Number(lastCheckIn);
 
         // 如果距离上次签到超过 30 秒，就变成 false (按钮变亮)
         // 如果在 30 秒内，就是 true (显示已签到)
-        setIsCheckedInToday(diff < 30);
+        // setIsCheckedInToday(diff < 30);
 
         // --- 上线模式 (按天算) - 上线时把上面几行注释掉，用下面这个 ---
-        /*
+
         const lastDate = new Date(Number(lastCheckIn) * 1000);
         const today = new Date();
-        const isSameDay = 
+        const isSameDay =
           lastDate.getFullYear() === today.getFullYear() &&
           lastDate.getMonth() === today.getMonth() &&
           lastDate.getDate() === today.getDate();
         setIsCheckedInToday(isSameDay);
-        */
       };
 
       // 1. 马上执行一次
@@ -107,7 +107,7 @@ export default function Home() {
       // 3. 页面关闭时清理定时器 (防止内存泄漏)
       return () => clearInterval(interval);
     }
-  }, [userExists, lastCheckIn, userExists]); // 依赖项：当链上数据变了，也会重新启动定时器
+  }, [userExists, lastCheckIn]); // 依赖项：当链上数据变了，也会重新启动定时器
 
   // --- 写入合约 ---
   const {
@@ -168,15 +168,26 @@ export default function Home() {
     setIsEditing(false);
   };
 
-  const handleTriggerCheck = () => {
+  // --- 测试用：强制触发3天未签到警告触发邮件 ---
+  const handleTriggerCheck3Days = () => {
     if (!address) return;
     writeContract({
       address: CONTRACT_ADDRESS,
       abi: CONTRACT_ABI,
-      functionName: "checkStatus",
-      args: [address],
+      functionName: "forceTriggerWarning",
     });
   };
+
+  // --- 测试用：强制触发5天未签到触发转账 ---
+  const handleTriggerCheck5Days = () => {
+    if (!address) return;
+    writeContract({
+      address: CONTRACT_ADDRESS,
+      abi: CONTRACT_ABI,
+      functionName: "forceDistribute",
+    });
+  };
+
   if (!mounted) return null;
   if (chainId !== sepolia.id) return <NetworkGuard />;
   //  如果正在“连接中”或“重连中”，显示 Loading，而不是登录页
@@ -193,56 +204,7 @@ export default function Home() {
   }
 
   if (status === "disconnected") {
-    return (
-      <div className="min-h-[80vh] flex items-center justify-center px-4">
-        <div className="max-w-md w-full bg-white/80 backdrop-blur-xl border border-white p-10 rounded-[40px] shadow-[0_20px_50px_rgba(0,0,0,0.05)] text-center">
-          {/* 图标装饰 */}
-          <div className="relative w-24 h-24 mx-auto mb-8">
-            <div className="absolute inset-0 bg-green-100 rounded-3xl rotate-6 animate-pulse" />
-            <div className="absolute inset-0 bg-green-500 rounded-3xl -rotate-3 flex items-center justify-center shadow-lg shadow-green-200">
-              <Ghost className="text-white w-12 h-12" />
-            </div>
-          </div>
-
-          <h2 className="text-3xl font-black text-slate-800 mb-3 tracking-tight">
-            身份验证
-          </h2>
-          <p className="text-slate-400 mb-8 leading-relaxed">
-            请先连接您的加密钱包，
-            <br />
-            以管理您的数字遗产和安全签到。
-          </p>
-
-          <div className="space-y-4 mb-8">
-            <div className="flex items-center gap-3 text-left p-4 bg-slate-50 rounded-2xl border border-slate-100">
-              <ShieldCheck className="text-green-500 shrink-0" size={20} />
-              <span className="text-xs text-slate-500 font-medium">
-                您的私钥和资产始终安全存储在您的钱包中。
-              </span>
-            </div>
-          </div>
-
-          {/* 这里放置真正的连接按钮 */}
-          <div className="flex justify-center">
-            <ConnectButton.Custom>
-              {({ openConnectModal }) => (
-                <button
-                  onClick={openConnectModal}
-                  className="group w-full bg-[#00D68F] hover:bg-[#00B075] text-white h-16 rounded-2xl font-bold text-lg flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-xl shadow-green-100"
-                >
-                  连接钱包
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </button>
-              )}
-            </ConnectButton.Custom>
-          </div>
-
-          <p className="mt-6 text-[10px] text-slate-300 uppercase font-bold tracking-[0.2em]">
-            Secure On-Chain Protocol
-          </p>
-        </div>
-      </div>
-    );
+    return <Disconnected />;
   }
   if (isLoadingUserData) {
     return (
@@ -367,13 +329,19 @@ export default function Home() {
             )}
 
             {/* 测试按钮 */}
-            {!isCheckedInToday && (
-              <div className="absolute -bottom-12 w-full text-center">
+            {isConnected && (
+              <div className="absolute -bottom-12 w-full text-center flex items-center justify-center gap-2">
                 <button
-                  onClick={handleTriggerCheck}
+                  onClick={handleTriggerCheck3Days}
                   className="text-[10px] text-slate-300 hover:text-red-400 transition-colors"
                 >
-                  模拟超时检查 (测试用)
+                  模拟3日未签 (测试用)
+                </button>
+                <button
+                  onClick={handleTriggerCheck5Days}
+                  className="text-[10px] text-slate-300 hover:text-red-400 transition-colors"
+                >
+                  模拟5日未签 (测试用)
                 </button>
               </div>
             )}
