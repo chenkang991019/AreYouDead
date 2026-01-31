@@ -5,13 +5,18 @@ const nodemailer = require("nodemailer");
 
 const CONTRACT_ADDRESS = "0xee4e4A59f8AC362351150365933Dc53A71388633";
 
-// 修改前：
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false, // ⚠️ 注意：587 端口必须设为 false
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  tls: {
+    rejectUnauthorized: false, // 允许自签名证书，增加连接成功率
+  },
+  connectionTimeout: 20000, // 增加到 20 秒
 });
 
 // 修改后（更稳定，显式指定服务器和端口）：
