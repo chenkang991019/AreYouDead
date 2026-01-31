@@ -14,7 +14,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 
 // 1. 确保这一行拿到值，哪怕是测试用的
 const projectId =
-  process.env.NEXT_PUBLIC_PROJECT_ID || "1234567890abcdef1234567890abcdef";
+  process.env.NEXT_PUBLIC_PROJECT_ID || "cb4d11f64e1d082ff0754a462235ab49";
 const rpcUrl =
   process.env.NEXT_PUBLIC_RPC_URL ||
   "https://sepolia.infura.io/v3/9c680309b4014b35a9d8edc410e8ce8f";

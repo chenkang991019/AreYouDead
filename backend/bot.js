@@ -26,7 +26,7 @@ async function main() {
     try {
         lastBlockChecked = await client.getBlockNumber();
         console.log(`📡 当前区块高度: ${lastBlockChecked}，开始监控...`);
-        setInterval(checkForEvents, 10000); // 建议改为10秒一次，避免请求过频被封IP
+        setInterval(checkForEvents, 60000); // 建议改为60秒一次，避免请求过频被封IP
     } catch (e) {
         console.error("启动失败:", e.message);
     }
