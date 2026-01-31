@@ -5,13 +5,26 @@ const nodemailer = require('nodemailer');
 
 const CONTRACT_ADDRESS = "0xee4e4A59f8AC362351150365933Dc53A71388633"; 
 
+// 修改前：
+// const transporter = nodemailer.createTransport({
+//     service: 'qq',
+//     secure: true,
+//     auth: { ... }
+// });
+
+// 修改后（更稳定，显式指定服务器和端口）：
 const transporter = nodemailer.createTransport({
-    service: 'qq',
-    secure: true,
+    host: 'smtp.qq.com',
+    port: 465,
+    secure: true, // 使用 SSL 必须为 true
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
-    }
+    },
+    // ✨ 新增：超时设置
+    connectionTimeout: 10000, // 10秒超时
+    greetingTimeout: 10000,
+    socketTimeout: 10000,
 });
 
 const client = createPublicClient({

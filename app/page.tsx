@@ -101,8 +101,8 @@ export default function Home() {
       // 1. 马上执行一次
       checkStatus();
 
-      // 2. 开启定时器，每 1 秒检查一次
-      const interval = setInterval(checkStatus, 1000);
+      // 2. 开启定时器，每 1 小时检查一次
+      const interval = setInterval(checkStatus, 1000 * 60 * 60);
 
       // 3. 页面关闭时清理定时器 (防止内存泄漏)
       return () => clearInterval(interval);
