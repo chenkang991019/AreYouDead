@@ -13,6 +13,7 @@
   "dependencies": {
     "dotenv": "^17.2.3",
     "nodemailer": "^7.0.12",
+    "resend": "^6.9.1",
     "viem": "^2.44.4"
   }
 }

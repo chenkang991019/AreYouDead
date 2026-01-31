@@ -1,8 +1,10 @@
 require("dotenv").config();
 const { createPublicClient, http, parseAbiItem, formatUnits } = require("viem");
 const { sepolia } = require("viem/chains");
-const nodemailer = require("nodemailer");
+// const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
+const resend = new Resend(process.env.RESEND_API_KEY);
 const CONTRACT_ADDRESS = "0xee4e4A59f8AC362351150365933Dc53A71388633";
 
 // 修改前：
@@ -13,19 +15,19 @@ const CONTRACT_ADDRESS = "0xee4e4A59f8AC362351150365933Dc53A71388633";
 // });
 
 // 修改后（更稳定，显式指定服务器和端口）：
-const transporter = nodemailer.createTransport({
-  host: "smtp.qq.com",
-  port: 465,
-  secure: true, // 使用 SSL 必须为 true
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-  // ✨ 新增：超时设置
-  connectionTimeout: 10000, // 10秒超时
-  greetingTimeout: 10000,
-  socketTimeout: 10000,
-});
+// const transporter = nodemailer.createTransport({
+//   host: "smtp.qq.com",
+//   port: 465,
+//   secure: true, // 使用 SSL 必须为 true
+//   auth: {
+//     user: process.env.EMAIL_USER,
+//     pass: process.env.EMAIL_PASS,
+//   },
+//   // ✨ 新增：超时设置
+//   connectionTimeout: 10000, // 10秒超时
+//   greetingTimeout: 10000,
+//   socketTimeout: 10000,
+// });
 
 const client = createPublicClient({
   chain: sepolia,
@@ -140,21 +142,34 @@ async function checkForEvents() {
   }
 }
 
+// async function sendEmail(to, subject, text) {
+//   if (!to || !to.includes("@")) {
+//     console.error(`🚫 无效的邮箱地址: ${to}`);
+//     return;
+//   }
+//   try {
+//     await transporter.sendMail({
+//       from: `"死了么DApp" <${process.env.EMAIL_USER}>`,
+//       to: to,
+//       subject: subject,
+//       text: text,
+//     });
+//     console.log(`✅ 邮件已发送至: ${to}`);
+//   } catch (error) {
+//     console.error(`❌ 邮件发送给 ${to} 失败:`, error.message);
+//   }
+// }
 async function sendEmail(to, subject, text) {
-  if (!to || !to.includes("@")) {
-    console.error(`🚫 无效的邮箱地址: ${to}`);
-    return;
-  }
   try {
-    await transporter.sendMail({
-      from: `"死了么DApp" <${process.env.EMAIL_USER}>`,
-      to: to,
+    const data = await resend.emails.send({
+      from: "onboarding@resend.dev", // Resend 提供的测试发件地址
+      to: to, // 用户的紧急联系人邮箱
       subject: subject,
       text: text,
     });
-    console.log(`✅ 邮件已发送至: ${to}`);
+    console.log(`✅邮件已发送至: ${to}！ID: ${data.id}`);
   } catch (error) {
-    console.error(`❌ 邮件发送给 ${to} 失败:`, error.message);
+    console.error("❌ 邮件发送给 ${to} 失败:", error);
   }
 }
 
