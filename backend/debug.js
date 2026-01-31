@@ -9,7 +9,7 @@ const CONTRACT_ADDRESS = "0xee4e4A59f8AC362351150365933Dc53A71388633";
 const client = createPublicClient({
     chain: sepolia,
     // 换个稳点的节点
-    transport: http('https://ethereum-sepolia-rpc.publicnode.com') 
+    transport: http(process.env.RPC_URL||'https://sepolia.infura.io/v3/9c680309b4014b35a9d8edc410e8ce8f') 
 });
 
 async function main() {

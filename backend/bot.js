@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
 
 const client = createPublicClient({
     chain: sepolia,
-    transport: http('https://ethereum-sepolia-rpc.publicnode.com') 
+    transport: http(process.env.RPC_URL||'https://sepolia.infura.io/v3/9c680309b4014b35a9d8edc410e8ce8f') 
 });
 
 let lastBlockChecked = 0n;

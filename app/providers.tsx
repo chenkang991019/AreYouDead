@@ -15,6 +15,9 @@ import "@rainbow-me/rainbowkit/styles.css";
 // 1. 确保这一行拿到值，哪怕是测试用的
 const projectId =
   process.env.NEXT_PUBLIC_PROJECT_ID || "1234567890abcdef1234567890abcdef";
+const rpcUrl =
+  process.env.NEXT_PUBLIC_RPC_URL ||
+  "https://sepolia.infura.io/v3/9c680309b4014b35a9d8edc410e8ce8f";
 
 const { wallets } = getDefaultWallets();
 
@@ -26,7 +29,8 @@ const config = getDefaultConfig({
   ssr: true,
   transports: {
     [mainnet.id]: http(),
-    [sepolia.id]: http("https://ethereum-sepolia-rpc.publicnode.com"),
+    // [sepolia.id]: http("https://ethereum-sepolia-rpc.publicnode.com"),
+    [sepolia.id]: http(rpcUrl),
   },
 });
 
