@@ -147,22 +147,50 @@ async function checkForEvents() {
   }
 }
 
+// async function sendEmail(to, subject, text) {
+//   if (!to || !to.includes("@")) {
+//     console.error(`🚫 无效的邮箱地址: ${to}`);
+//     return;
+//   }
+//   try {
+//     await transporter.sendMail({
+//       from: `"死了么DApp" <${process.env.EMAIL_USER}>`,
+//       to: to,
+//       subject: subject,
+//       text: text,
+//     });
+//     console.log(`✅ 邮件已发送至: ${to}`);
+//   } catch (error) {
+//     console.error(`❌ 邮件发送给 ${to} 失败:`, error.message);
+//   }
+// }
 async function sendEmail(to, subject, text) {
-  if (!to || !to.includes("@")) {
-    console.error(`🚫 无效的邮箱地址: ${to}`);
-    return;
-  }
-  try {
-    await transporter.sendMail({
-      from: `"死了么DApp" <${process.env.EMAIL_USER}>`,
-      to: to,
+  const url = "https://api.brevo.com/v3/smtp/email";
+  const options = {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "content-type": "application/json",
+      "api-key": process.env.BREVO_API_KEY,
+    },
+    body: JSON.stringify({
+      sender: { name: "AreYouDead Bot", email: "chenkang991019@gmail.com" },
+      to: [{ email: to }],
       subject: subject,
-      text: text,
-    });
-    console.log(`✅ 邮件已发送至: ${to}`);
+      textContent: text,
+    }),
+  };
+
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    if (response.ok) {
+      console.log(`✅ Brevo: 邮件已发送！ID: ${data.messageId}`);
+    } else {
+      console.error("❌ Brevo 报错:", data);
+    }
   } catch (error) {
-    console.error(`❌ 邮件发送给 ${to} 失败:`, error.message);
+    console.error("❌ 请求失败:", error);
   }
 }
-
 main();
