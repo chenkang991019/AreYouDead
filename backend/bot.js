@@ -1,18 +1,18 @@
 require("dotenv").config();
 const { createPublicClient, http, parseAbiItem, formatUnits } = require("viem");
 const { sepolia } = require("viem/chains");
-// const nodemailer = require("nodemailer");
-const { Resend } = require("resend");
+const nodemailer = require("nodemailer");
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const CONTRACT_ADDRESS = "0xee4e4A59f8AC362351150365933Dc53A71388633";
 
 // 修改前：
-// const transporter = nodemailer.createTransport({
-//     service: 'qq',
-//     secure: true,
-//     auth: { ... }
-// });
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
 // 修改后（更稳定，显式指定服务器和端口）：
 // const transporter = nodemailer.createTransport({
@@ -142,34 +142,21 @@ async function checkForEvents() {
   }
 }
 
-// async function sendEmail(to, subject, text) {
-//   if (!to || !to.includes("@")) {
-//     console.error(`🚫 无效的邮箱地址: ${to}`);
-//     return;
-//   }
-//   try {
-//     await transporter.sendMail({
-//       from: `"死了么DApp" <${process.env.EMAIL_USER}>`,
-//       to: to,
-//       subject: subject,
-//       text: text,
-//     });
-//     console.log(`✅ 邮件已发送至: ${to}`);
-//   } catch (error) {
-//     console.error(`❌ 邮件发送给 ${to} 失败:`, error.message);
-//   }
-// }
 async function sendEmail(to, subject, text) {
+  if (!to || !to.includes("@")) {
+    console.error(`🚫 无效的邮箱地址: ${to}`);
+    return;
+  }
   try {
-    const data = await resend.emails.send({
-      from: "onboarding@resend.dev", // Resend 提供的测试发件地址
-      to: to, // 用户的紧急联系人邮箱
+    await transporter.sendMail({
+      from: `"死了么DApp" <${process.env.EMAIL_USER}>`,
+      to: to,
       subject: subject,
       text: text,
     });
-    console.log(`✅邮件已发送至: ${to}！ID: ${data.id}`);
+    console.log(`✅ 邮件已发送至: ${to}`);
   } catch (error) {
-    console.error("❌ 邮件发送给 ${to} 失败:", error);
+    console.error(`❌ 邮件发送给 ${to} 失败:`, error.message);
   }
 }
 
